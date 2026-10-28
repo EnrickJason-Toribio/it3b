@@ -1,28 +1,8 @@
 <?php
 
-// Database Connection
-$host = 'localhost';
-$db = 'it30b_lab_db';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+require '../../config/config.php';
 
-$dsn = "mysql:host=$host; dbname=$db; charset=$charset";
-
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-try{
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch(PDOEXCEPTION $e){
-    die("Database connection failed" . $e->getMessage());
-}
-
-// Session
-session_start();
+requireRole('manager');
 
 // Determine current section
 $section = $_GET['section'] ?? 'students' ?? 'books';
@@ -359,7 +339,11 @@ $action = $_GET['action'] ?? '';
         <a href="index.php?section=books">Books</a>
         <a href="index.php?section=borrow">Borrow</a>
     </nav>
-    <hr>
+    <br>
+        <a href="../../auth/signout.php" class="btn btn-danger">
+            Sign Out
+        </a>
+
     <?php if($section === 'students'):?>
         <h1>Students</h1>
 
